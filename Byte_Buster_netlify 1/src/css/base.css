@@ -1,0 +1,516 @@
+/* ==========================================================
+   BYTE BUSTER — base.css
+   Estilos globais usados em TODAS as páginas:
+   variáveis, reset, header/menu, botões, cards, formulário,
+   rodapé e botão flutuante do WhatsApp.
+   ========================================================== */
+
+/* ---------- Variáveis (edite as cores aqui) ---------- */
+:root {
+  --bg: #070b16;
+  --bg-soft: #0d1326;
+  --panel: #111a33;
+  --border: #1f2a4a;
+  --text: #f4f7fc;
+  --muted: #a9b6cf;
+
+  --primary: #00ffcc;      /* botões e destaques */
+  --primary-ink: #04120f;  /* texto sobre o botão primário */
+  --blue: #1e90ff;         /* azul do raio da marca */
+
+  --radius: 10px;
+  --header-h: 72px;
+  --wrap: 1160px;
+
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-head: "Sora", "Segoe UI", system-ui, Arial, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body.menu-open { overflow: hidden; }
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+p { margin: 0 0 1em; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.wrap { width: min(var(--wrap), 100% - 48px); margin-inline: auto; }
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 2000;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: var(--primary);
+  color: var(--primary-ink);
+  font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
+
+/* ==========================================================
+   HEADER + MENU
+   (o blur fica num pseudo-elemento: backdrop-filter direto no
+   header quebraria o menu mobile em tela cheia)
+   ========================================================== */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-h);
+  z-index: 1000;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(7, 11, 22, 0.88);
+  backdrop-filter: blur(12px);
+}
+
+.site-header .wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.logo {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+}
+.logo i { color: var(--blue); filter: drop-shadow(0 0 8px rgba(30, 144, 255, 0.7)); }
+.logo span { color: var(--primary); }
+
+.site-nav { display: flex; align-items: center; gap: 30px; }
+
+.site-nav a { font-size: 0.92rem; }
+
+.site-nav > a,
+.dropdown > .dd-link {
+  position: relative;
+  padding: 6px 0;
+}
+
+.site-nav > a::after,
+.dropdown > .dd-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+
+.site-nav > a:hover::after,
+.dropdown > .dd-link:hover::after,
+.site-nav a[aria-current]::after { width: 100%; }
+
+.site-nav a[aria-current] { color: var(--primary); }
+
+.site-nav .nav-cta {
+  padding: 8px 18px;
+  border: 1px solid var(--primary);
+  border-radius: 999px;
+  transition: background 0.25s, color 0.25s;
+}
+.site-nav .nav-cta::after { display: none; }
+.site-nav .nav-cta:hover { background: var(--primary); color: var(--primary-ink); }
+
+/* Dropdown (abre com hover, foco de teclado ou toque) */
+.dropdown { position: relative; display: flex; align-items: center; gap: 2px; }
+
+.dd-toggle {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* seta desenhada em CSS (não depende de ícone externo) */
+.dd-toggle::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin-top: -3px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.25s;
+}
+
+.dropdown.open .dd-toggle::before { transform: rotate(-135deg); margin-top: 3px; }
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: -16px;
+  padding-top: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+}
+
+.dropdown-menu ul {
+  min-width: 230px;
+  padding: 6px;
+  background: #0c1224;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.dropdown-menu a { display: block; padding: 10px 14px; border-radius: 6px; }
+.dropdown-menu a:hover { background: rgba(30, 144, 255, 0.12); color: var(--primary); }
+
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu,
+.dropdown.open .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+/* Botão hambúrguer */
+.menu-toggle {
+  position: relative;
+  z-index: 2;
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+@media (max-width: 900px) {
+  .menu-toggle { display: flex; }
+
+  .site-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    padding: calc(var(--header-h) + 24px) 24px 32px;
+    background: var(--bg);
+    text-align: center;
+    overflow-y: auto;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.35s ease, visibility 0.35s;
+  }
+
+  .site-nav.open { transform: none; visibility: visible; }
+
+  .site-nav a { font-size: 1.35rem; }
+
+  .dropdown { flex-direction: column; }
+
+  .dropdown-menu {
+    position: static;
+    display: none;
+    padding: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .dropdown.open .dropdown-menu { display: block; }
+
+  .dropdown-menu ul { min-width: 0; background: none; border: 0; padding: 4px 0 0; }
+  .dropdown-menu a { font-size: 1.05rem; color: var(--muted); }
+}
+
+/* ==========================================================
+   COMPONENTES
+   ========================================================== */
+
+/* Botões */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.25s, border-color 0.25s, color 0.25s;
+}
+
+.btn-primary { background: var(--primary); color: var(--primary-ink); }
+.btn-primary:hover { box-shadow: 0 0 26px rgba(0, 255, 204, 0.45); }
+
+.btn-ghost { border-color: var(--border); color: var(--text); }
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+
+/* Seções */
+.section { padding: 88px 0; }
+.section.alt { background: var(--bg-soft); }
+
+.section-head { max-width: 640px; margin-bottom: 40px; }
+.section-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+.section-head p { color: var(--muted); }
+
+/* Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  padding: 28px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.section.alt .card { background: var(--bg); }
+
+.card > i { display: block; margin-bottom: 16px; color: var(--primary); font-size: 1.4rem; }
+.card h3 { font-size: 1.1rem; }
+.card p { margin: 0; color: var(--muted); font-size: 0.96rem; }
+
+a.card { display: block; transition: border-color 0.25s; }
+a.card:hover { border-color: var(--primary); }
+
+/* Passos (usar só quando o conteúdo é uma sequência) */
+.steps {
+  counter-reset: passo;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.steps li {
+  counter-increment: passo;
+  position: relative;
+  padding: 28px 24px 24px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.steps li::before {
+  content: counter(passo);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--primary-ink);
+  font-family: var(--font-head);
+  font-weight: 700;
+}
+
+.steps h3 { font-size: 1.05rem; }
+.steps p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+/* Imagem + texto lado a lado */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.split.reverse .split-media { order: 2; }
+
+.split-media img {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.split-text h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+.split-text p { color: var(--muted); }
+.split-text .btn { margin-top: 12px; }
+
+@media (max-width: 900px) {
+  .section { padding: 64px 0; }
+  .split { grid-template-columns: 1fr; gap: 32px; }
+  .split.reverse .split-media { order: 0; }
+}
+
+/* Faixa de chamada final */
+.cta-band {
+  padding: 72px 24px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(30, 144, 255, 0.22), transparent 60%),
+    var(--bg-soft);
+  border-block: 1px solid var(--border);
+}
+.cta-band h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); }
+.cta-band p { max-width: 46ch; margin: 0 auto 28px; color: var(--muted); }
+
+/* Formulário (envia para o WhatsApp — veja main.js) */
+.form { display: grid; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 0.9rem; font-weight: 500; }
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 13px 14px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+}
+
+.field textarea { min-height: 130px; resize: vertical; }
+.field input::placeholder,
+.field textarea::placeholder { color: #6f7d99; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: transparent; }
+
+.form-note { margin: 0; color: var(--muted); font-size: 0.85rem; }
+.form-status { min-height: 1.4em; margin: 0; font-size: 0.92rem; color: var(--primary); }
+.form-status[data-type="error"] { color: #ff8f8f; }
+
+@media (max-width: 640px) {
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================
+   RODAPÉ
+   ========================================================== */
+.site-footer { padding: 56px 0 28px; background: #04070f; border-top: 1px solid var(--border); color: var(--muted); }
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 40px;
+}
+
+.footer-brand .logo { color: var(--text); margin-bottom: 10px; }
+.footer-brand p { margin: 0; }
+
+.site-footer h4 {
+  margin-bottom: 14px;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.site-footer li { margin-bottom: 8px; }
+.site-footer a:hover { color: var(--primary); }
+.site-footer i { width: 20px; color: var(--primary); }
+
+.footer-copy {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+
+/* ==========================================================
+   WHATSAPP FLUTUANTE
+   ========================================================== */
+.whatsapp-float {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 900;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  font-size: 1.9rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.whatsapp-float:hover { transform: scale(1.08); box-shadow: 0 14px 34px rgba(37, 211, 102, 0.45); }
+
+/* ---------- Movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

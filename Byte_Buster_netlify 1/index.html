@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Byte Buster • Suporte técnico e criação de sites</title>
+  <meta name="description" content="Suporte técnico, criação de sites, sistemas web e montagem de PCs. Tecnologia confiável, sites rápidos e suporte que resolve.">
+  <meta name="theme-color" content="#070b16">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Byte Buster">
+  <meta property="og:title" content="Byte Buster • Suporte técnico e criação de sites">
+  <meta property="og:description" content="Suporte técnico, criação de sites, sistemas web e montagem de PCs. Tecnologia confiável, sites rápidos e suporte que resolve.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="src/css/base.css">
+  <link rel="stylesheet" href="src/css/home.css">
+  <script>
+    /* Mostra a tela de entrada só na primeira visita (ou com ?intro na URL) */
+    (function () {
+      try {
+        var forcar = /[?&]intro\b/.test(location.search);
+        if (forcar || !localStorage.getItem("bb-intro-seen")) {
+          document.documentElement.classList.add("intro-pending");
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+
+  <!-- ============ TELA DE ENTRADA (só na primeira visita) ============ -->
+  <div id="intro" role="dialog" aria-modal="true" aria-label="Tela de entrada">
+    <button class="intro-skip" id="introSkip" type="button">Pular</button>
+
+    <button class="intro-start" id="introStart" type="button">
+      <span class="fingerprint" aria-hidden="true"></span>
+      <strong>TOQUE PARA ENTRAR</strong>
+      <small>Espaço Dev Byte Buster</small>
+    </button>
+
+    <div class="hud" id="introHud" hidden>
+      <div class="logs" aria-hidden="true">
+        <p>INITIALIZING BYTE BUSTER CORE...</p>
+        <p>LOADING DEV MODULES...</p>
+        <p>AUTHENTICATING ACCESS...</p>
+        <p>SYSTEM ONLINE</p>
+      </div>
+      <div class="hud-row"><span>CARREGANDO SISTEMA</span><span id="introPercent">0%</span></div>
+      <div class="hud-bar"><div id="introBar"></div></div>
+    </div>
+
+    <audio id="introSound" src="src/audio/loading.mp3" preload="none"></audio>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html" aria-label="Byte Buster — página inicial">
+        <i class="fa-solid fa-bolt" aria-hidden="true"></i>BYTE<span>BUSTER</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-nav" id="siteNav" aria-label="Principal">
+        <a href="index.html" aria-current="page">Home</a>
+
+        <div class="dropdown">
+          <a class="dd-link" href="servicos.html">Serviços</a>
+          <button class="dd-toggle" type="button" aria-label="Mostrar lista de serviços" aria-expanded="false"></button>
+          <div class="dropdown-menu">
+            <ul>
+              <li><a href="suporte.html">Suporte técnico</a></li>
+              <li><a href="criacao-de-site.html">Criação de sites</a></li>
+              <li><a href="servicos.html#sistemas">Sistemas web</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <a href="monte-seu-pc.html">Monte seu PC</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="index.html#contato" class="nav-cta">Fale conosco</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <section class="hero">
+      <div class="wrap">
+        <h1>Suporte e web feitos pra performance</h1>
+        <p class="hero-sub">Tecnologia confiável. Sites rápidos. Suporte que resolve.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contato">Solicitar orçamento</a>
+          <a class="btn btn-ghost" href="#servicos">Conhecer os serviços</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicos">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>O que a Byte Buster faz</h2>
+          <p>Escolha o serviço e veja como funciona.</p>
+        </div>
+
+        <div class="highlights">
+          <a class="highlight big" href="suporte.html">
+            <img src="src/img/capa4.webp" alt="" width="1024" height="941" loading="lazy">
+            <h3>Suporte técnico</h3>
+            <p>Manutenção, formatação, upgrades e otimização completa.</p>
+            <span class="more">Saiba mais</span>
+          </a>
+
+          <a class="highlight" href="criacao-de-site.html">
+            <img src="src/img/siteq.webp" alt="" width="900" height="1003" loading="lazy">
+            <h3>Criação de sites</h3>
+            <p>Sites modernos, rápidos e responsivos.</p>
+            <span class="more">Ver detalhes</span>
+          </a>
+
+          <a class="highlight plain" href="servicos.html#sistemas">
+            <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
+            <h3>Sistemas web</h3>
+            <p>Painéis, automações e soluções sob medida.</p>
+            <span class="more">Explorar</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Como funciona o atendimento</h2>
+        </div>
+        <ol class="steps">
+          <li><h3>Você conta o que precisa</h3><p>Pelo WhatsApp ou pelo formulário desta página.</p></li>
+          <li><h3>Diagnóstico e orçamento</h3><p>Entendemos o problema ou o projeto e enviamos o orçamento.</p></li>
+          <li><h3>Execução</h3><p>Manutenção, montagem ou desenvolvimento, mantendo você informado.</p></li>
+          <li><h3>Entrega e acompanhamento</h3><p>Testamos com você e seguimos disponíveis depois.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap split">
+        <div class="split-media">
+          <img src="src/img/fundo.webp" alt="Computador gamer montado com monitor e gabinete de vidro" width="1017" height="793" loading="lazy">
+        </div>
+        <div class="split-text">
+          <h2>Monte seu PC do jeito que você usa</h2>
+          <p>Jogos, trabalho ou estudo: cada uso pede peças diferentes. Conte o que você precisa e quanto quer investir.</p>
+          <a class="btn btn-ghost" href="monte-seu-pc.html">Ver como funciona</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="contato">
+      <div class="wrap contact-layout">
+        <div class="contact-info">
+          <h2>Vamos resolver seu problema</h2>
+          <p>Fale com a Byte Buster. Resposta rápida, atendimento humano e solução profissional.</p>
+          <ul class="contact-list">
+            <li><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><a href="https://wa.me/5511920110136?text=Ol%C3%A1%2C%20Byte%20Buster%21%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">(11) 92011-0136</a></li>
+            <li><i class="fa-solid fa-envelope" aria-hidden="true"></i><a href="mailto:byte.busters2027@gmail.com">byte.busters2027@gmail.com</a></li>
+          </ul>
+        </div>
+        <form class="form" data-whatsapp>
+          <div class="field">
+            <label for="nome">Seu nome</label>
+            <input id="nome" name="nome" type="text" maxlength="80" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="assunto">Assunto</label>
+            <select id="assunto" name="assunto">
+              <option>Suporte técnico</option>
+              <option>Criação de site</option>
+              <option>Sistema web</option>
+              <option>Monte seu PC</option>
+              <option>Outro assunto</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" maxlength="1000" placeholder="Descreva o que você precisa" required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>Enviar pelo WhatsApp</button>
+          <p class="form-note">Ao enviar, abrimos o WhatsApp com a sua mensagem já escrita. Nada é guardado neste site.</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="logo" href="index.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i>BYTE<span>BUSTER</span></a>
+          <p>Tecnologia, Suporte e Web.</p>
+        </div>
+
+        <div>
+          <h4>Páginas</h4>
+          <ul>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="suporte.html">Suporte técnico</a></li>
+            <li><a href="criacao-de-site.html">Criação de sites</a></li>
+            <li><a href="monte-seu-pc.html">Monte seu PC</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contato</h4>
+          <ul>
+            <li><i class="fa-brands fa-instagram" aria-hidden="true"></i> <a href="https://www.instagram.com/bytebusters.tech" target="_blank" rel="noopener">Instagram</a></li>
+            <li><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><a href="https://wa.me/5511920110136?text=Ol%C3%A1%2C%20Byte%20Buster%21%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><i class="fa-solid fa-envelope" aria-hidden="true"></i><a href="mailto:byte.busters2027@gmail.com">byte.busters2027@gmail.com</a></li>
+            <li><i class="fa-solid fa-clock" aria-hidden="true"></i>Seg a Sex: 9h às 18h</li>
+            
+          </ul>
+          <!----------------------------------------------------------------------------------------
+            REDES SOCIAIS: quando tiver os links, remova este comentário e troque os "#".
+            <ul>
+              <li><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+              <li><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
+            </ul>
+          ---------------------------------------------------------------------------------------------->
+        </div>
+      </div>
+
+      <p class="footer-copy">© <span data-year>2026</span> Byte Buster • Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://wa.me/5511920110136?text=Ol%C3%A1%2C%20Byte%20Buster%21%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+  </a>
+
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>
+  </div>
+
+  <script src="src/js/intro.js"></script>
+  <script src="src/js/main.js"></script>
+</body>
+</html>

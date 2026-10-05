@@ -1,0 +1,249 @@
+/* ==========================================================
+   BYTE BUSTER — pages.css
+   Páginas internas: Serviços, Suporte, Criação de Sites,
+   Monte seu PC e Sobre.
+   A imagem de fundo do topo vem do style inline de cada página.
+   ========================================================== */
+
+/* ---------- Topo da página ----------
+   A foto de fundo vem do atributo style="background-image:..." de cada
+   página (assim o caminho é relativo ao HTML). O escurecimento fica
+   no ::before para o texto ficar sempre legível. */
+.page-hero {
+  position: relative;
+  isolation: isolate;
+  padding: calc(var(--header-h) + 88px) 0 84px;
+  background: #0a1226 center / cover no-repeat;
+}
+
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(7, 11, 22, 0.95) 0%, rgba(7, 11, 22, 0.75) 60%, rgba(7, 11, 22, 0.4) 100%);
+}
+
+.page-hero h1 {
+  max-width: 16ch;
+  margin-bottom: 18px;
+  font-size: clamp(2.1rem, 4.8vw, 3.3rem);
+}
+
+.page-hero p {
+  max-width: 50ch;
+  margin-bottom: 30px;
+  color: #d3dcee;
+  font-size: 1.08rem;
+}
+
+/* ---------- Lista com check ---------- */
+.checklist { display: grid; gap: 12px; margin: 20px 0 0; }
+.checklist li { display: flex; gap: 12px; align-items: flex-start; color: var(--text); }
+.checklist i { margin-top: 5px; color: var(--primary); }
+
+/* =========================================================
+   MARCAS — Loop infinito
+   ========================================================= */
+
+.brands {
+  position: relative;
+  overflow: hidden;
+  padding: 8px 0;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+.brands-track {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: max-content;
+  animation: brands-scroll 28s linear infinite;
+}
+
+.brands-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes brands-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.brand {
+  flex-shrink: 0;
+  width: 130px;
+  height: 84px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Acessibilidade — quem pediu menos movimento vê grade estática */
+@media (prefers-reduced-motion: reduce) {
+  .brands {
+    mask-image: none;
+    -webkit-mask-image: none;
+    overflow: visible;
+  }
+  .brands-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   PERFIS DE PC — cards em bloco
+   ========================================================= */
+
+.perfil-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.perfil {
+  position: relative;
+  padding: 32px 28px;
+  background: #0e1424;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 16px;
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  overflow: hidden;
+}
+
+/* Linha azul decorativa no topo do card */
+.perfil::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00c8ff, #0072ff);
+  opacity: .85;
+}
+
+/* Hover elegante */
+.perfil:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 200, 255, .4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .4);
+}
+
+/* Ícone circular no topo */
+.perfil-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(0, 200, 255, .18), rgba(0, 114, 255, .1));
+  border: 1px solid rgba(0, 200, 255, .25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #00c8ff;
+  font-size: 1.25rem;
+}
+
+.perfil h3 {
+  font-size: 1.35rem;
+  margin: 0 0 8px;
+  color: #fff;
+}
+
+.perfil-desc {
+  color: #a7b0c0;
+  margin: 0 0 20px;
+  font-size: .95rem;
+}
+
+/* Lista com check */
+.perfil-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.perfil-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: .95rem;
+  color: #d7dde7;
+  line-height: 1.45;
+}
+
+.perfil-list li i {
+  color: #00c8ff;
+  font-size: .85rem;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+
+@media (max-width: 980px) {
+  .perfil-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .perfil-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .perfil {
+    padding: 24px 20px;
+  }
+
+  .perfil:hover {
+    transform: none;
+  }
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .perfil {
+    transition: none;
+  }
+  .perfil:hover {
+    transform: none;
+  }
+}
+
+
+/* ---------- VLibras (acessibilidade em Libras) ---------- */
+[vw] { z-index: 950; }
